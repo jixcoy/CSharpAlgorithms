@@ -8,7 +8,7 @@ namespace Project
         {
             MergeSort m = new MergeSort();
 
-            int[] arr = { 1, 0, 2, 9, 3, 8, 4, 7, 5, 6 };
+            int[] arr = { 7, 6, 5, 4, 3, 2, 1 };
 
             Console.WriteLine("Array before Merge Sort:");
             foreach (int i in arr)
@@ -16,8 +16,9 @@ namespace Project
                 Console.Write(i + " ");
             }
 
+            
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            m.MergeS(arr);
+            m.sort(arr, 0, arr.Length-1);
             watch.Stop();
 
             Console.WriteLine("\nArray after Merge Sort:");
@@ -25,6 +26,8 @@ namespace Project
             {
                 Console.Write(s + " ");
             }
+
+            Console.WriteLine($"Merge time: {watch.Elapsed}");
         }
     }
 }

@@ -1,73 +1,85 @@
-﻿using System.Xml.Schema;
+﻿using System;
+using System.Xml.Schema;
 
 namespace Project
 {
     public class MergeSort
     {
-        public int[] Merge(int[] left, int[] right, int[] main)
+        public void merge(int[] arr, int l, int m, int r)
         {
-            int leftLength = left.Length - 1;
-            int rightLength = right.Length - 1;
-            int leftMin = 0;
-            int rightMin = 0;
-            int posFill = 0;
-
-            while (leftMin < leftLength && rightMin < rightLength)
-            {
-                if (left[leftMin] <= right[rightMin])
-                {
-                    main[posFill] = left[leftMin];
-                    leftMin++;
+            // Find sizes of two
+            // subarrays to be merged
+            int n1 = m - l + 1;
+            int n2 = r - m;
+ 
+            // Create temp arrays
+            int[] L = new int[n1];
+            int[] R = new int[n2];
+            int i, j;
+ 
+            // Copy data to temp arrays
+            for (i = 0; i < n1; ++i)
+                L[i] = arr[l + i];
+            for (j = 0; j < n2; ++j)
+                R[j] = arr[m + 1 + j];
+ 
+            // Merge the temp arrays
+ 
+            // Initial indexes of first
+            // and second subarrays
+            i = 0;
+            j = 0;
+ 
+            // Initial index of merged
+            // subarray array
+            int k = l;
+            while (i < n1 && j < n2) {
+                if (L[i] <= R[j]) {
+                    arr[k] = L[i];
+                    i++;
                 }
-                else
-                {
-                    main[posFill] = right[rightMin];
-                    rightMin++;
+                else {
+                    arr[k] = R[j];
+                    j++;
                 }
-                posFill++;
+                k++;
             }
-
-            while (leftMin < leftLength)
-            {
-                main[posFill] = left[leftMin];
-                leftMin++;
-                posFill++;
+ 
+            // Copy remaining elements
+            // of L[] if any
+            while (i < n1) {
+                arr[k] = L[i];
+                i++;
+                k++;
             }
-            while (rightMin < rightLength)
-            {
-                main[posFill] = right[rightMin];
-                rightMin++;
-                posFill++;
+ 
+            // Copy remaining elements
+            // of R[] if any
+            while (j < n2) {
+                arr[k] = R[j];
+                j++;
+                k++;
             }
-            
-
-            return main;
         }
-
-        public int[] MergeS(int[] main)
+ 
+        // Main function that
+        // sorts arr[l..r] using
+        // merge()
+        public void sort(int[] arr, int l, int r)
         {
-            int mLength = main.Length;
-            
-            if (mLength < 2)
-                return main;
-
-            int mid = mLength / 2;
-            int[] left = new int[mid];
-            int[] right = new int[mLength - 1];
-
-            for (int i = 0; i < mid - 1; i++)
-                left[i] = main[i];
-
-            for (int i = mid; i < mLength - 1; i++)
-            {
-                right[i - mid] = main[i];
+            if (l < r) {
+                // Find the middle
+                // point
+                int m = l + (r - l) / 2;
+ 
+                // Sort first and
+                // second halves
+                sort(arr, l, m);
+                sort(arr, m + 1, r);
+ 
+                // Merge the sorted halves
+                merge(arr, l, m, r);
             }
-
-            MergeS(left);
-            MergeS(right);
-            Merge(left, right, main);
-
-            return main;
         }
     }
 }
